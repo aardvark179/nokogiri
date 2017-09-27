@@ -53,7 +53,7 @@ void Nokogiri_marshal_xpath_funcall_and_return_values(xmlXPathParserContextPtr c
 {
   int i;
   VALUE result, doc;
-  VALUE *argv;
+  VALUE argv[32];
   VALUE node_set = Qnil;
   xmlNodeSetPtr xml_node_set = NULL;
   xmlXPathObjectPtr obj;
@@ -61,7 +61,7 @@ void Nokogiri_marshal_xpath_funcall_and_return_values(xmlXPathParserContextPtr c
   assert(ctx->context->doc);
   assert(DOC_RUBY_OBJECT_TEST(ctx->context->doc));
 
-  argv = (VALUE *)calloc((size_t)nargs, sizeof(VALUE));
+  /* argv = (VALUE *)calloc((size_t)nargs, sizeof(VALUE)); */
   for (i = 0 ; i < nargs ; ++i) {
     rb_gc_register_address(&argv[i]);
   }
@@ -97,7 +97,7 @@ void Nokogiri_marshal_xpath_funcall_and_return_values(xmlXPathParserContextPtr c
   for (i = 0 ; i < nargs ; ++i) {
     rb_gc_unregister_address(&argv[i]);
   }
-  free(argv);
+  /* free(argv); */
 
   switch(TYPE(result)) {
     case T_FLOAT:

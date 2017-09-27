@@ -5,8 +5,7 @@ module Nokogiri
         def inspect # :nodoc:
           attributes = inspect_attributes.reject { |x|
             begin
-              attribute = send x
-              !attribute || (attribute.respond_to?(:empty?) && attribute.empty?)
+              !(respond_to?(x)) || !(attribute = send x) || (attribute.respond_to?(:empty?) && attribute.empty?)
             rescue NoMethodError
               true
             end

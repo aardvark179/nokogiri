@@ -32,8 +32,14 @@ nokogiri_sax_tuple_new(xmlParserCtxtPtr ctxt, VALUE self)
   return tuple;
 }
 
+static inline void nokogiri_sax_tuple_destroy(nokogiriSAXTuplePtr tuple)
+{
+  RELEASE_WEAK_REF(tuple->self);
+  free(tuple);
+}
+
 #define NOKOGIRI_SAX_TUPLE_DESTROY(_tuple) \
-  free(_tuple) \
+  nokogiri_sax_tuple_destroy(_tuple) \
 
 #endif
 

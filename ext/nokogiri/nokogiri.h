@@ -119,3 +119,33 @@ void nokogiri_root_nsdef(xmlNsPtr, xmlDocPtr);
 #define XMLNS_BUFFER_LEN 128
 
 #endif
+
+#ifdef TRUFFLERUBY_RUBY_H
+/* #define NEW_LOCAL_REF(x) rb_tr_new_local_ref(x) */
+/* #define GET_LOCAL_REF(x) rb_tr_get_local_ref(x) */
+/* #define NEW_GLOBAL_REF(x) rb_tr_new_global_ref(x) */
+/* #define GET_GLOBAL_REF(x) rb_tr_get_global_ref(x) */
+/* #define RELEASE_GLOBAL_REF(x) rb_tr_release_global_ref(x) */
+/* #define NEW_WEAK_REF(x) rb_tr_new_weak_ref(x) */
+/* #define GET_WEAK_REF(x) rb_tr_get_weak_ref(x) */
+/* #define RELEASE_WEAK_REF(x) rb_tr_release_weak_ref(x) */
+
+#define NEW_LOCAL_REF(x) rb_tr_handle_for_managed(x)
+#define GET_LOCAL_REF(x) rb_tr_managed_from_handle_or_null(x)
+#define NEW_GLOBAL_REF(x) rb_tr_handle_for_managed(x)
+#define GET_GLOBAL_REF(x) rb_tr_managed_from_handle_or_null(x)
+#define RELEASE_GLOBAL_REF(x)
+#define NEW_WEAK_REF(x) rb_tr_handle_for_managed(x)
+#define GET_WEAK_REF(x) rb_tr_managed_from_handle_or_null(x)
+#define RELEASE_WEAK_REF(x)
+
+#else
+#define NEW_LOCAL_REF(x) (void *)(x)
+#define GET_LOCAL_REF(x) (VALUE)(x)
+#define NEW_GLOBAL_REF(x) (void *)(x)
+#define GET_GLOBAL_REF(x) (VALUE)(x)
+#define RELEASE_GLOBAL_REF(x)
+#define NEW_WEAK_REF(x) (void *)(x)
+#define GET_WEAK_REF(x) (VALUE)(x)
+#define RELEASE_WEAK_REF(x)
+#endif
